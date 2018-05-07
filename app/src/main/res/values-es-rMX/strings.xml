@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">3DPark</string>
+    <string name="menu_spots">Lugares</string>
+    <string name="menu_history">Historial</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="settings_sign_out">Salir</string>
+</resources>
