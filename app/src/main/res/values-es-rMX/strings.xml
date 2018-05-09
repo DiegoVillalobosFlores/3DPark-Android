@@ -5,4 +5,6 @@
     <string name="menu_history">Historial</string>
     <string name="menu_profile">Perfil</string>
     <string name="settings_sign_out">Salir</string>
+    <string name="menu_my_spots">Mis Lugares</string>
+    <string name="nearby">Cerca de tí</string>
 </resources>

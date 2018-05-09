@@ -17,6 +17,9 @@
     <string name="menu_spots">Spots</string>
     <string name="menu_history">History</string>
     <string name="menu_profile">Profile</string>
+    <string name="menu_my_spots">My Spots</string>
     <string name="settings_sign_out">Sign Out</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="nearby">Near you</string>
+
 </resources>

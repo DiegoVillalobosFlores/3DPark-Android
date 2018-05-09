@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="16dp"
+    app:cardElevation="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:id="@+id/recycler_spots_image_garage"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="La Condesa 1722"
+                android:fontFamily="@font/assistant_light"
+                android:textSize="26sp"
+                android:gravity="center_vertical"
+                android:id="@+id/recycler_spots_text_address"
+                android:textColor="@color/Black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SS"
+                android:fontFamily="@font/assistant_light"
+                android:textSize="24sp"
+                android:textColor="@color/Black"
+                android:id="@+id/recycler_spots_text_score"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_star_border_black_30dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0031 ETH / Hr"
+            android:fontFamily="@font/assistant_light"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/recycler_spots_text_fare"
+            android:layout_marginBottom="16dp"/>
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:animateLayoutChanges="true">
 
-    <android.support.design.widget.AppBarLayout
+    <!--<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@android:color/transparent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             app:layout_scrollFlags="enterAlwaysCollapsed"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
@@ -25,22 +27,67 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/assistant"
                 android:text="@string/title_activity_main"
-                android:textColor="@color/accent2"
+                android:textColor="@color/main"
                 android:textSize="24sp"
                 android:textStyle="normal" />
         </android.support.v7.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>-->
 
-    <include layout="@layout/content_main" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/White"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/content_main" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_menu_black_36dp"
+            android:layout_margin="16dp"
+            android:onClick="toggleDrawer"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:tint="@color/White"
+            android:onClick="toggleNearbyDrawer"
+            app:srcCompat="@drawable/ic_near_me_black_24dp" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="#99000000"
+        android:id="@+id/main_linear_drawer"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:onClick="toggleNearbyDrawer">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/assistant_light"
+            android:text="@string/nearby"
+            android:textColor="@android:color/white"
+            android:textSize="26sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_recycler_spots"/>
+    </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>
