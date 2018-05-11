@@ -15,12 +15,14 @@ class Spots(private val spots: ArrayList<Spot>, val onClickListener: (Spot) -> U
 
     class SpotsViewHolder(val layout: View) : RecyclerView.ViewHolder(layout) {
         fun bind(spot:Spot, clickListener: (Spot) -> Unit){
-            val address = "${spot.street} ${spot.number}"
-            val currentFare = "${spot.current} ${spot.currency} / ${spot.rate}"
+            val address = spot.address.getCompositeAddress()
+            val fares = spot.fares
+            val currentFare = "${fares.current} ${fares.currency} / ${fares.rate}"
             Glide.with(layout.context).load(spot.photo).into(layout.recycler_spots_image_garage)
             layout.recycler_spots_text_address.text = address
             layout.recycler_spots_text_score.text = spot.score
             layout.recycler_spots_text_fare.text = currentFare
+            layout.setOnClickListener{ clickListener(spot)}
         }
     }
 

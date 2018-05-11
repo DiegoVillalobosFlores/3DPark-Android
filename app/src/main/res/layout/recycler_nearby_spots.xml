@@ -40,14 +40,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="SS"
                 android:fontFamily="@font/assistant_light"
-                android:textSize="24sp"
+                android:textSize="26sp"
                 android:textColor="@color/Black"
                 android:id="@+id/recycler_spots_text_score"
-                android:layout_marginEnd="8dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:layout_marginEnd="8dp"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

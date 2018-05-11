@@ -1,16 +1,11 @@
 package villalobos.diego.x3dpark
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
-import android.support.graphics.drawable.AnimationUtilsCompat
 import android.support.v4.app.ActivityCompat
 import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -22,7 +17,6 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.firebase.ui.auth.AuthUI
 import com.github.kittinunf.fuel.core.FuelError
@@ -31,7 +25,6 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
-import com.github.nitrico.lastadapter.LastAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -40,7 +33,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import villalobos.diego.x3dpark.Adapters.Spots
 import villalobos.diego.x3dpark.Data.Spot
 import villalobos.diego.x3dpark.Data.User
@@ -57,6 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var spots: ArrayList<Spot>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +117,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onMapReady(p0: GoogleMap) {
 
         mMap = p0
+
+        getAllSpotsInCity()
+
+        setUpMap()
+    }
+
+    fun onSpotPressed(spot:Spot){
+        val intent = Intent(this,MapsActivity::class.java)
+        intent.putExtra("spot",spot)
+        startActivity(intent)
+    }
+
+    fun getAllSpotsInCity() {
         val url = getString(R.string.API_URL) + getString(R.string.API_POSTS_GET_ALL_POSTS)
 
         url.httpGet().header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
@@ -131,22 +137,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Log.d("RES",response.responseMessage)
             Log.wtf("RES",result.toString())
 
-            user.spots = result.get()
-
-            val spots = user.spots as List<Spot>
+            spots = result.get()
 
             for (spot:Spot in spots){
-                spot.fares.dayS = spot.fares.day.toString()
-                spot.fares.afternoonS = spot.fares.afternoon.toString()
-                spot.fares.nightS = spot.fares.night.toString()
 
-                val sydney = LatLng(spot.coordinates._latitude,spot.coordinates._longitude)
-                mMap.addMarker(MarkerOptions().position(sydney).title("${spot.street} ${spot.number}"))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,16f))
-
+                val marker = LatLng(spot.coordinates._latitude,spot.coordinates._longitude)
+                val address = spot.address
+                mMap.addMarker(MarkerOptions().position(marker).title("${address.street} ${address.number}"))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,16f))
 
 
             }
+            viewManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+            viewAdapter = Spots(spots,{spot:Spot -> onSpotPressed(spot)})
+
+            recyclerView = findViewById<RecyclerView>(R.id.main_recycler_spots).apply {
+                setHasFixedSize(true)
+                layoutManager = viewManager
+                adapter = viewAdapter
+            }
+
+            /*LastAdapter(spots,BR.item)
+                    .map<Spot>(R.layout.recycler_spots)
+                    .into(main_recycler_spots)*/
+        }
+    }
+
+    fun getNearbySpots(){
+        val url = getString(R.string.API_URL) + getString(R.string.API_POSTS_GET_ALL_POSTS)
+
+        url.httpGet().header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
+            Log.d("REQ",request.toString())
+            Log.d("RES",response.responseMessage)
+            Log.wtf("RES",result.toString())
+
+            spots = result.get()
+
             viewManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
             viewAdapter = Spots(user.spots,{spot:Spot -> onSpotPressed(spot)})
 
@@ -160,12 +186,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .map<Spot>(R.layout.recycler_spots)
                     .into(main_recycler_spots)*/
         }
-
-        setUpMap()
-    }
-
-    fun onSpotPressed(spot:Spot){
-
     }
 
     override fun onBackPressed() {

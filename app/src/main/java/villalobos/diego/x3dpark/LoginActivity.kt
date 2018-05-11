@@ -16,7 +16,7 @@ import java.util.*
 class LoginActivity : AppCompatActivity() {
 
     var user: FirebaseUser? = null
-    val RC_SIGN_IN = 123
+    val RC_SIGN_IN = 69
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("SIGNED IN",mUser.toString())
                     intent.putExtra("user",mUser)
                     startActivity(intent)
+                    finish()
                 }else{
                     Log.d("EX",task.exception.toString())
                     return@addOnCompleteListener
@@ -79,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
                         Log.d("SIGNED IN",mUser.toString())
                         intent.putExtra("user",mUser)
                         startActivity(intent)
+                        finish()
                     }else{
                         Log.d("EX",task.exception.toString())
                         return@addOnCompleteListener
