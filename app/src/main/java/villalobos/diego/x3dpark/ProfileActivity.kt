@@ -23,7 +23,7 @@ class ProfileActivity : AppCompatActivity() {
 
         user = intent.getSerializableExtra("user") as User
 
-        toolbar_text_title.text = user.displayName
+        toolbar_text_title.text = user.name
     }
 
 }

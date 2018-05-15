@@ -21,7 +21,13 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_my_spots">My Spots</string>
     <string name="settings_sign_out">Sign Out</string>
-    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile" translatable="false">ProfileActivity</string>
     <string name="nearby">Near you</string>
+    <string name="no_nearby">No nearby spots found, try increasing the range</string>
+    <string name="rates">Rates</string>
+    <string name="current">Current</string>
+    <string name="day">Day</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="night">Night</string>
 
 </resources>

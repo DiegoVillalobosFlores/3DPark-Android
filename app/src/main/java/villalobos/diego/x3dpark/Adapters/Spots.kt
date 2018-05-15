@@ -18,10 +18,15 @@ class Spots(private val spots: ArrayList<Spot>, val onClickListener: (Spot) -> U
             val address = spot.address.getCompositeAddress()
             val fares = spot.fares
             val currentFare = "${fares.current} ${fares.currency} / ${fares.rate}"
+            val distance = spot.directions.route.leg.distance
+            val duration = spot.directions.route.leg.duration
+            val distanceS = "${duration.text} / ${distance.text}"
+
             Glide.with(layout.context).load(spot.photo).into(layout.recycler_spots_image_garage)
             layout.recycler_spots_text_address.text = address
             layout.recycler_spots_text_score.text = spot.score
             layout.recycler_spots_text_fare.text = currentFare
+            layout.recycler_spots_text_distance.text = distanceS
             layout.setOnClickListener{ clickListener(spot)}
         }
     }

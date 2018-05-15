@@ -2,6 +2,7 @@ package villalobos.diego.x3dpark
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.ActivityCompat
@@ -25,6 +26,8 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -36,7 +39,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import villalobos.diego.x3dpark.Adapters.Spots
 import villalobos.diego.x3dpark.Data.Spot
 import villalobos.diego.x3dpark.Data.User
-import villalobos.diego.x3dpark.R.id.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
@@ -50,6 +52,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var spots: ArrayList<Spot>
+    private lateinit var nearbySpots: ArrayList<Spot>
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var range = 3000
+    private val city = "Guadalajara"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,27 +65,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         user = intent.getSerializableExtra("user") as User
 
-        Log.d("TOKEN",user.idToken)
+        Log.wtf("TOKEN",user.idToken)
 
         val inflatedView = nav_view.inflateHeaderView(R.layout.nav_header_main)
         val id = inflatedView.findViewById<ImageView>(R.id.nav_image_profile)
 
-        Log.wtf("PHOTO",user.displayPhoto)
-
-        if(user.displayPhoto != "null"){
+        if(user.photo != "null"){
             Glide.with(this)
-                    .load(user.displayPhoto)
+                    .load(user.photo)
                     .into(id)
         }
         val name = inflatedView.findViewById<TextView>(R.id.nav_text_name)
-        name.text = user.displayName
+        name.text = user.name
 
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.main_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        val rangeS = "$range M"
+        main_text_range.text = rangeS
     }
 
     fun toggleDrawer(_v:View){
@@ -93,15 +99,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setUpMap() {
+        if(checkLocationPermissions()){
+            mMap.isMyLocationEnabled = true
+
+            fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location:Location? ->
+                        val coordinates = LatLng(location?.latitude!!,location.longitude)
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates,14f))
+                    }
+
+            getNearbySpots()
+        }
+    }
+
+    fun checkLocationPermissions():Boolean{
         if (ActivityCompat.checkSelfPermission(this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-            return
+            return false
         }
-
-        mMap.isMyLocationEnabled = true
-
+        if (ActivityCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            return false
+        }
+        return true
     }
 
     fun toggleNearbyDrawer(v:View){
@@ -109,13 +133,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             main_linear_drawer.visibility = View.VISIBLE
             val leftSwipe = AnimationUtils.loadAnimation(this,R.anim.layout_open_left)
             main_linear_drawer.startAnimation(leftSwipe)
+            getNearbySpots()
         }else{
             main_linear_drawer.visibility = View.GONE
         }
     }
 
     override fun onMapReady(p0: GoogleMap) {
-
         mMap = p0
 
         getAllSpotsInCity()
@@ -124,7 +148,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun onSpotPressed(spot:Spot){
-        val intent = Intent(this,MapsActivity::class.java)
+        val intent = Intent(this,SpotDetailActivity::class.java)
         intent.putExtra("spot",spot)
         startActivity(intent)
     }
@@ -132,64 +156,111 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun getAllSpotsInCity() {
         val url = getString(R.string.API_URL) + getString(R.string.API_POSTS_GET_ALL_POSTS)
 
-        url.httpGet().header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
-            Log.d("REQ",request.toString())
-            Log.d("RES",response.responseMessage)
-            Log.wtf("RES",result.toString())
+        try {
+            url.httpGet().header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
 
-            spots = result.get()
+                when (response.statusCode){
+                    200 -> {
+                        spots = result.get()
+                        drawCitySpots()
+                    }
+                    400 -> {
 
-            for (spot:Spot in spots){
-
-                val marker = LatLng(spot.coordinates._latitude,spot.coordinates._longitude)
-                val address = spot.address
-                mMap.addMarker(MarkerOptions().position(marker).title("${address.street} ${address.number}"))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,16f))
-
-
+                    }
+                    403 -> {
+                        startLoginActivity()
+                    }
+                }
             }
-            viewManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-            viewAdapter = Spots(spots,{spot:Spot -> onSpotPressed(spot)})
-
-            recyclerView = findViewById<RecyclerView>(R.id.main_recycler_spots).apply {
-                setHasFixedSize(true)
-                layoutManager = viewManager
-                adapter = viewAdapter
-            }
-
-            /*LastAdapter(spots,BR.item)
-                    .map<Spot>(R.layout.recycler_spots)
-                    .into(main_recycler_spots)*/
+        }catch (ex:Exception){
+            ex.printStackTrace()
         }
     }
 
+    fun drawCitySpots(){
+        for (spot:Spot in spots){
+
+            val marker = LatLng(spot.coordinates._latitude,spot.coordinates._longitude)
+            val address = spot.address
+            val currentFare = "${spot.fares.current} ${spot.fares.currency} / ${spot.fares.rate}"
+
+            val markerOptions = MarkerOptions()
+            markerOptions.position(marker)
+            markerOptions.title("${address.street} ${address.number} $currentFare")
+
+            mMap.addMarker(markerOptions)
+        }
+    }
+
+
+    fun startLoginActivity(){
+        val intent = Intent(this,LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     fun getNearbySpots(){
-        val url = getString(R.string.API_URL) + getString(R.string.API_POSTS_GET_ALL_POSTS)
+        main_recycler_spots.visibility = View.GONE
+        main_text_no_nearby.visibility = View.GONE
+        main_progress_nearby_spots.visibility = View.VISIBLE
+        if(checkLocationPermissions()){
+            fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location:Location? ->
+                        val coordinates = LatLng(location?.latitude!!,location.longitude)
 
-        url.httpGet().header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
-            Log.d("REQ",request.toString())
-            Log.d("RES",response.responseMessage)
-            Log.wtf("RES",result.toString())
+                        val url = getString(R.string.API_URL) + getString(R.string.API_POSTS_GET_NEARBY_POSTS)
+                        val params = listOf("coordinates" to "${coordinates.latitude},${coordinates.longitude}",
+                                "range" to range,
+                                "city" to city)
+                        url.httpGet(params).header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
+                            Log.d("SPOTS",result.toString())
+                            when(response.statusCode){
+                                200 -> {
+                                    main_progress_nearby_spots.visibility = View.GONE
 
-            spots = result.get()
+                                    nearbySpots = result.get()
+                                    if(nearbySpots.isEmpty()){
+                                        main_text_no_nearby.visibility = View.VISIBLE
+                                    }else{
+                                        main_recycler_spots.visibility = View.VISIBLE
+                                        drawNearbySpotsRecycler()
+                                    }
+                                }
+                                403 -> {
+                                    startLoginActivity()
+                                }
+                            }
+                        }
+                    }
+        }
+    }
 
-            viewManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-            viewAdapter = Spots(user.spots,{spot:Spot -> onSpotPressed(spot)})
-
-            recyclerView = findViewById<RecyclerView>(R.id.main_recycler_spots).apply {
-                setHasFixedSize(true)
-                layoutManager = viewManager
-                adapter = viewAdapter
+    fun changeNearbyRange(v: View){
+        when (v){
+            main_image_minus_range -> {
+                range -= 500
             }
+            main_image_plus_range -> {
+                range += 500
+            }
+        }
+        getNearbySpots()
+        val rangeS = "$range M"
+        main_text_range.text = rangeS
+    }
 
-            /*LastAdapter(spots,BR.item)
-                    .map<Spot>(R.layout.recycler_spots)
-                    .into(main_recycler_spots)*/
+    fun drawNearbySpotsRecycler() {
+        viewManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        viewAdapter = Spots(nearbySpots,{ spot:Spot -> onSpotPressed(spot)})
+
+        recyclerView = findViewById<RecyclerView>(R.id.main_recycler_spots).apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
         }
     }
 
     override fun onBackPressed() {
-        Log.d("BAKC","true")
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {

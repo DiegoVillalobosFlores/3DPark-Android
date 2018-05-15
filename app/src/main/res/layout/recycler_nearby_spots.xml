@@ -55,15 +55,31 @@
                 android:layout_gravity="center"/>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0.0031 ETH / Hr"
-            android:fontFamily="@font/assistant_light"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp"
-            android:id="@+id/recycler_spots_text_fare"
-            android:layout_marginBottom="16dp"/>
+            android:layout_gravity="end"
+            android:layout_margin="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.0031 ETH / Hr"
+                android:layout_weight="1"
+                android:fontFamily="@font/assistant_light"
+                android:textSize="20sp"
+                android:id="@+id/recycler_spots_text_fare" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:fontFamily="@font/assistant_light"
+                android:id="@+id/recycler_spots_text_distance"
+                android:text="8 mins / 3300 M" />
+        </LinearLayout>
 
 
     </LinearLayout>
