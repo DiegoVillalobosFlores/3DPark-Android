@@ -6,6 +6,159 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ProfileActivity"
+    android:animateLayoutChanges="true"
+    android:background="@color/White"
     tools:showIn="@layout/activity_profile">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/profile_scroll_main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:id="@+id/profile_image_profile"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_person_black_24dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_gravity="center"
+                    android:background="@color/main_transparent"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:onClick="onProfileImageClicked"
+                    android:gravity="center"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:id="@+id/profile_text_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/assistant_light"
+                        android:gravity="center"
+                        android:textSize="26sp"
+                        android:text="@string/nav_header_title"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/White" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/assistant_light"
+                        android:text="Joined 4/20/2018"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textStyle="italic"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/White"
+                        android:id="@+id/profile_text_joined"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SS"
+                            android:fontFamily="@font/assistant_light"
+                            android:textSize="26sp"
+                            android:textColor="@color/White"
+                            android:id="@+id/profile_text_score"
+                            android:gravity="center"
+                            android:layout_marginEnd="8dp"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:tint="@color/White"
+                            app:srcCompat="@drawable/ic_star_border_black_30dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/assistant_light"
+                        android:id="@+id/spots_detail_text_distance"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="@color/White"
+                        android:text="Balance: 1.0 ETH" />
+
+                </LinearLayout>
+
+            </android.support.design.widget.CoordinatorLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/assistant_light"
+                android:text="@string/vehicles"
+                android:textSize="26sp"
+                android:padding="16dp"
+                android:textColor="@color/White"
+                android:background="@color/main_transparent"
+                android:id="@+id/spots_detail_text_address_street"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                android:id="@+id/profile_recycler_cars"/>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@color/main_transparent"
+        android:id="@+id/profile_layout_image"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:onClick="enlargePhoto"
+        android:animateLayoutChanges="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/profile_image_large" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminateTint="@color/White"
+        android:id="@+id/profile_progress_main"/>
 
 </android.support.design.widget.CoordinatorLayout>

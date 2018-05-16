@@ -13,4 +13,6 @@
     <string name="day">Día</string>
     <string name="afternoon">Tarde</string>
     <string name="night">Noche</string>
+    <string name="vehicles">Vehículos</string>
+    <string name="joined">Usuario desde</string>
 </resources>

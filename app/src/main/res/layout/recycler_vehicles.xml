@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/recycler_cars_image_photo"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:background="#99000000"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:gravity="center"
+        android:animateLayoutChanges="true"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Corolla AE86"
+                android:textSize="20sp"
+                android:textColor="@color/White"
+                android:ellipsize="end"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:id="@+id/recycler_cars_text_model"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toyota"
+                android:textColor="@color/White"
+                android:id="@+id/recycler_cars_text_manufacturer"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="BGWE12F"
+            android:textSize="28sp"
+            android:textColor="@color/White"
+            android:id="@+id/recycler_cars_text_plate"
+            android:fontFamily="@font/assistant"/>
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+            android:background="@color/Black"
+            android:id="@+id/recycler_cars_view_color" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

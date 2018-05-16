@@ -9,6 +9,7 @@
     <color name="background">#D3D0CB</color>
     <color name="accent1">#FEF5EF</color>
     <color name="accent2">#f0f2ef</color>
+    <color name="main_transparent">#99000000</color>
 
     <color name="White">#FFFFFF</color>
     <color name="Ivory">#FFFFF0</color>

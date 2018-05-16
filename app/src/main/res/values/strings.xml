@@ -15,6 +15,7 @@
     <string name="API_URL" translatable="false">https://us-central1-dpark-4c6f8.cloudfunctions.net</string>
     <string name="API_POSTS_GET_ALL_POSTS" translatable="false">/getAllParkingSpots</string>
     <string name="API_POSTS_GET_NEARBY_POSTS" translatable="false">/getNearbySpots</string>
+    <string name="API_USERS_GET_USER_DATA" translatable="false">/getUserData</string>
 
     <string name="menu_spots">Spots</string>
     <string name="menu_history">History</string>
@@ -29,5 +30,7 @@
     <string name="day">Day</string>
     <string name="afternoon">Afternoon</string>
     <string name="night">Night</string>
+    <string name="vehicles">Vehicles</string>
+    <string name="joined">Joined</string>
 
 </resources>

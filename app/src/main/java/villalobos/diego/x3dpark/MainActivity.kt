@@ -107,8 +107,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         val coordinates = LatLng(location?.latitude!!,location.longitude)
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates,14f))
                     }
-
-            getNearbySpots()
         }
     }
 
@@ -231,7 +229,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 }
                             }
                         }
-                    }
+            }
         }
     }
 
