@@ -158,7 +158,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:indeterminateTint="@color/White"
+        android:indeterminateTint="@color/Black"
         android:id="@+id/profile_progress_main"/>
 
 </android.support.design.widget.CoordinatorLayout>
