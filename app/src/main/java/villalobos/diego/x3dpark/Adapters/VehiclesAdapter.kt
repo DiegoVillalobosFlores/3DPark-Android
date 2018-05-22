@@ -1,6 +1,5 @@
 package villalobos.diego.x3dpark.Adapters
 
-import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
@@ -14,8 +13,8 @@ import kotlinx.android.synthetic.main.recycler_vehicles.view.*
 import villalobos.diego.x3dpark.Data.Vehicle
 import villalobos.diego.x3dpark.R
 
-class Vehicles(private val vehicles:ArrayList<Vehicle>,private val onClickListener: (Vehicle) -> Unit) :
-        RecyclerView.Adapter<Vehicles.VehiclesViewHolder>(){
+class VehiclesAdapter(private val vehicles:ArrayList<Vehicle>, private val onClickListener: (Vehicle) -> Unit) :
+        RecyclerView.Adapter<VehiclesAdapter.VehiclesViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehiclesViewHolder{
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.recycler_vehicles,parent,false)

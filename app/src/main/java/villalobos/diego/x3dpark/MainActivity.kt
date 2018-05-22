@@ -33,10 +33,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import villalobos.diego.x3dpark.Adapters.Spots
+import villalobos.diego.x3dpark.Adapters.SpotsAdapter
 import villalobos.diego.x3dpark.Data.Spot
 import villalobos.diego.x3dpark.Data.User
 
@@ -139,6 +140,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onMapReady(p0: GoogleMap) {
         mMap = p0
+        mMap.setOnInfoWindowClickListener { marker: Marker? ->
+            for (spot:Spot in spots){
+                if(marker?.title == "${spot.address.getCompositeAddress()} ${spot.fares.getCurrentFareString()}"){
+                    val intent = Intent(this,SpotDetailActivity::class.java)
+                    intent.putExtra("spot",spot)
+                    startActivity(intent)
+                }
+            }
+        }
 
         getAllSpotsInCity()
 
@@ -152,27 +162,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun getAllSpotsInCity() {
-        val url = getString(R.string.API_URL) + getString(R.string.API_POSTS_GET_ALL_POSTS)
+        if(checkLocationPermissions()){
+            fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location:Location? ->
+                        val coordinates = LatLng(location?.latitude!!,location.longitude)
 
-        try {
-            url.httpGet().header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
+                        val url = getString(R.string.API_URL) + getString(R.string.API_POSTS_GET_ALL_POSTS)
+                        val params = listOf("coordinates" to "${coordinates.latitude},${coordinates.longitude}",
+                                "range" to range,
+                                "city" to city)
+                        url.httpGet(params).header(Pair("authorization",user.idToken)).responseObject { request: Request, response: Response, result: Result<ArrayList<Spot>, FuelError> ->
+                            when (response.statusCode){
+                                200 -> {
+                                    spots = result.get()
+                                    drawCitySpots()
+                                }
+                                400 -> {
 
-                when (response.statusCode){
-                    200 -> {
-                        spots = result.get()
-                        drawCitySpots()
+                                }
+                                403 -> {
+                                    startLoginActivity()
+                                }
+                            }
+                        }
                     }
-                    400 -> {
-
-                    }
-                    403 -> {
-                        startLoginActivity()
-                    }
-                }
-            }
-        }catch (ex:Exception){
-            ex.printStackTrace()
         }
+
     }
 
     fun drawCitySpots(){
@@ -180,11 +195,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val marker = LatLng(spot.coordinates._latitude,spot.coordinates._longitude)
             val address = spot.address
-            val currentFare = "${spot.fares.current} ${spot.fares.currency} / ${spot.fares.rate}"
+            val currentFare = spot.fares.getCurrentFareString()
 
             val markerOptions = MarkerOptions()
             markerOptions.position(marker)
-            markerOptions.title("${address.street} ${address.number} $currentFare")
+            markerOptions.title("${address.getCompositeAddress()} $currentFare")
 
             mMap.addMarker(markerOptions)
         }
@@ -249,7 +264,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun drawNearbySpotsRecycler() {
         viewManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-        viewAdapter = Spots(nearbySpots,{ spot:Spot -> onSpotPressed(spot)})
+        viewAdapter = SpotsAdapter(nearbySpots,{ spot:Spot -> onSpotPressed(spot)})
 
         recyclerView = findViewById<RecyclerView>(R.id.main_recycler_spots).apply {
             setHasFixedSize(true)

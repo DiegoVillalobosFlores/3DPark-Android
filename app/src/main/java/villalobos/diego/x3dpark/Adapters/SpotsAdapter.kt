@@ -1,6 +1,5 @@
 package villalobos.diego.x3dpark.Adapters
 
-import android.content.DialogInterface
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,8 @@ import kotlinx.android.synthetic.main.recycler_nearby_spots.view.*
 import villalobos.diego.x3dpark.Data.Spot
 import villalobos.diego.x3dpark.R
 
-class Spots(private val spots: ArrayList<Spot>, val onClickListener: (Spot) -> Unit) :
-        RecyclerView.Adapter<Spots.SpotsViewHolder>(){
+class SpotsAdapter(private val spots: ArrayList<Spot>, val onClickListener: (Spot) -> Unit) :
+        RecyclerView.Adapter<SpotsAdapter.SpotsViewHolder>(){
 
     class SpotsViewHolder(val layout: View) : RecyclerView.ViewHolder(layout) {
         fun bind(spot:Spot, clickListener: (Spot) -> Unit){

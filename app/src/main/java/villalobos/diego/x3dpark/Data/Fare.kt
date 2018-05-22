@@ -7,4 +7,8 @@ data class Fare (var day: Double = 0.0,
                  var night: Double = 0.0,
                  val current: Double = 0.0,
                  val rate:String = "Hr",
-                 val currency:String = "ETH") : Serializable
+                 val currency:String = "ETH") : Serializable {
+    fun getCurrentFareString () : String {
+        return "$current $currency / $rate"
+    }
+}

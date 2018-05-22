@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "125217360671",
+    "firebase_url": "https://dpark-4c6f8.firebaseio.com",
+    "project_id": "dpark-4c6f8",
+    "storage_bucket": "dpark-4c6f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125217360671:android:ddf64283745ab5f0",
+        "android_client_info": {
+          "package_name": "villalobos.diego.x3dpark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125217360671-grrkol143ql152dthj730l70kpmefsp5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "villalobos.diego.x3dpark",
+            "certificate_hash": "c41a6d304211f9be79dca0c4831254adf3a122f9"
+          }
+        },
+        {
+          "client_id": "125217360671-8hrbaa4aaqb2rdl8vfrkhucdp5op265e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz-3jqO65NMnE5JKyQxzymfmjNp4X44Ls"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125217360671-8hrbaa4aaqb2rdl8vfrkhucdp5op265e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

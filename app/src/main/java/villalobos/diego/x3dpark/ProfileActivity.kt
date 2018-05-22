@@ -1,8 +1,6 @@
 package villalobos.diego.x3dpark
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -15,9 +13,8 @@ import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 
-import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.content_profile.*
-import villalobos.diego.x3dpark.Adapters.Vehicles
+import villalobos.diego.x3dpark.Adapters.VehiclesAdapter
 import villalobos.diego.x3dpark.Data.User
 import villalobos.diego.x3dpark.Data.Vehicle
 
@@ -69,7 +66,7 @@ class ProfileActivity : AppCompatActivity() {
     fun drawVehiclesRecycler(){
         profile_progress_main.visibility = View.GONE
         profile_scroll_main.visibility = View.VISIBLE
-        val viewAdapter = Vehicles(user.vehicles,{ vehicle: Vehicle -> onVehicleClicked(vehicle) })
+        val viewAdapter = VehiclesAdapter(user.vehicles,{ vehicle: Vehicle -> onVehicleClicked(vehicle) })
 
         findViewById<RecyclerView>(R.id.profile_recycler_cars).apply {
             setHasFixedSize(true)
