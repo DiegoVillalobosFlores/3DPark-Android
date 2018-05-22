@@ -14,8 +14,8 @@
             android:title="@string/menu_history" />
         <item
             android:id="@+id/nav_menu_my_spots"
-            android:icon="@drawable/ic_person_pin_circle_black_24dp"
-            android:title="@string/menu_my_spots"/>
+            android:icon="@drawable/ic_add_location_black_24dp"
+            android:title="@string/add_spot"/>
     </group>
 
 </menu>

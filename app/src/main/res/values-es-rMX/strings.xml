@@ -15,4 +15,18 @@
     <string name="night">Noche</string>
     <string name="vehicles">Vehículos</string>
     <string name="joined">Usuario desde</string>
+    <string name="reserveFor">Reservar por</string>
+    <string name="hours">Horas</string>
+    <string name="reserve">Reservar</string>
+    <string name="estimatedCost">Costo Estimado</string>
+    <string name="history">Historial</string>
+    <string name="my_spots">Mis Lugares</string>
+    <string name="address">Dirección</string>
+    <string name="street">Calle</string>
+    <string name="number">Número</string>
+    <string name="coordinates">Coordenadas</string>
+    <string name="add_spot">Añadir Lugar</string>
+    <string name="photo">Foto</string>
+    <string name="city">Ciudad</string>
+    <string name="neighborhood">Colonia</string>
 </resources>

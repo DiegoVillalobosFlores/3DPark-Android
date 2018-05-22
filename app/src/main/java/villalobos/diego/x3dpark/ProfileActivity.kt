@@ -46,6 +46,7 @@ class ProfileActivity : AppCompatActivity() {
                     user.vehicles = userData.vehicles
                     user.score = userData.score
                     user.joined = userData.joined
+                    user.wallet = userData.wallet
 
                     drawProfileDetails()
                     drawVehiclesRecycler()
@@ -61,6 +62,8 @@ class ProfileActivity : AppCompatActivity() {
         profile_text_name.text = user.name
         profile_text_joined.text = joined
         profile_text_score.text = user.score
+        profile_text_wallet.text = user.wallet
+        profile_text_balance.text = user.getFormatedBalance()
     }
 
     fun drawVehiclesRecycler(){
@@ -71,6 +74,7 @@ class ProfileActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.profile_recycler_cars).apply {
             setHasFixedSize(true)
             adapter = viewAdapter
+            isNestedScrollingEnabled = false
         }
     }
 

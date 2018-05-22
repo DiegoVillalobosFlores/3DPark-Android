@@ -15,7 +15,11 @@
     <string name="API_URL" translatable="false">https://us-central1-dpark-4c6f8.cloudfunctions.net</string>
     <string name="API_POSTS_GET_ALL_POSTS" translatable="false">/getAllParkingSpots</string>
     <string name="API_POSTS_GET_NEARBY_POSTS" translatable="false">/getNearbySpots</string>
+    <string name="API_POSTS_POST_RESERVE_SPOT" translatable="false">/reserveSpot</string>
+    <string name="API_SPOTS_POST_ADD_SPOT" translatable="false">/addSpot</string>
     <string name="API_USERS_GET_USER_DATA" translatable="false">/getUserData</string>
+    <string name="API_USERS_GET_USER_RESERVATIONS" translatable="false">/getUserReservations</string>
+    <string name="API_USERS_GET_USER_SPOTS" translatable="false">/getUserSpots</string>
 
     <string name="menu_spots">Spots</string>
     <string name="menu_history">History</string>
@@ -32,5 +36,22 @@
     <string name="night">Night</string>
     <string name="vehicles">Vehicles</string>
     <string name="joined">Joined</string>
+    <string name="reserveFor">Reserve For</string>
+    <string name="hours">Hours</string>
+    <string name="reserve">Reserve</string>
+    <string name="estimatedCost">Estimated Cost</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="history">History</string>
+    <string name="title_activity_my_spots">MySpotsActivity</string>
+    <string name="my_spots">My Spots</string>
+    <string name="title_activity_add_spot">AddSpotActivity</string>
+    <string name="address">Address</string>
+    <string name="street">Street</string>
+    <string name="number">Number</string>
+    <string name="coordinates">Coordinates</string>
+    <string name="add_spot">Add Spot</string>
+    <string name="photo">Photo</string>
+    <string name="city">City</string>
+    <string name="neighborhood">Neighborhood</string>
 
 </resources>

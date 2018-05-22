@@ -143,9 +143,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mMap.setOnInfoWindowClickListener { marker: Marker? ->
             for (spot:Spot in spots){
                 if(marker?.title == "${spot.address.getCompositeAddress()} ${spot.fares.getCurrentFareString()}"){
-                    val intent = Intent(this,SpotDetailActivity::class.java)
-                    intent.putExtra("spot",spot)
-                    startActivity(intent)
+                    onSpotPressed(spot)
                 }
             }
         }
@@ -158,6 +156,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun onSpotPressed(spot:Spot){
         val intent = Intent(this,SpotDetailActivity::class.java)
         intent.putExtra("spot",spot)
+        intent.putExtra("user",user)
         startActivity(intent)
     }
 
@@ -311,10 +310,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_menu_history -> {
-
+                val intent = Intent(this,HistoryActivity::class.java)
+                intent.putExtra("user",user)
+                startActivity(intent)
             }
             R.id.nav_menu_my_spots -> {
-
+                val intent = Intent(this, AddSpotActivity::class.java)
+                intent.putExtra("user", user)
+                startActivity(intent)
             }
         }
 
